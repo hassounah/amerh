@@ -1,10 +1,10 @@
 {
   "name": "corner-office",
   "version": "1.32.1",
-  "description": "Personal developer toolkit: continuous learning, code review agents, architecture review panel, product requirements, feature design, task planning, autonomous implementation teams, SQL database tools, and workflow optimization.",
+  "description": "Personal developer toolkit: continuous learning, code review agents, architecture review panel, feature design, task planning, autonomous implementation teams, SQL database tools, composable workflow formulas, and workflow optimization.",
   "author": {
     "name": "Amer Hassounah"
   },
-  "license": "UNLICENSED",
+  "license": "MIT",
   "keywords": ["learning", "code-review", "security", "workflow", "solo-dev"]
 }

@@ -6,16 +6,16 @@ Personal Claude Code plugin marketplace by Amer Hassounah.
 
 | Plugin | Version | Description |
 |--------|---------|-------------|
-| **[corner-office](#corner-office)** | 1.32.0 | Persistent dev manager (Rix) with 3-pipeline system, continuous learning, code review agents, architecture review panel, autonomous implementation teams, SQL database tools, composable workflow formulas, and channel server with permission relay |
+| **[corner-office](#corner-office)** | 1.32.1 | Persistent dev manager (Rix) with 3-pipeline system, continuous learning, code review agents, architecture review panel, autonomous implementation teams, SQL database tools, composable workflow formulas, and channel server with permission relay |
 
 ## Installation
 
 ```bash
 # Add the marketplace
-/plugin marketplace add ~/.claude/plugins/repos/amer-plugins
+/plugin marketplace add hassounah/amerh
 
 # Install a plugin
-/plugin install corner-office@amer-plugins
+/plugin install corner-office@amerh
 ```
 
 ---
@@ -135,7 +135,7 @@ Composable YAML presets for `/assemble-team` — override agents with `+agent`, 
 ## Structure
 
 ```
-amer-plugins/
+amerh/
 ├── .claude-plugin/
 │   └── marketplace.json
 └── plugins/
