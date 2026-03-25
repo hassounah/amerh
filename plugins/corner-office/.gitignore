@@ -1,0 +1,13 @@
+# Plugin settings (per-user)
+.claude/*.local.md
+
+# Handoff files (session-specific, not for version control)
+**/handoffs/
+
+# IDE
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc

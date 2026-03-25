@@ -1,0 +1,15 @@
+[project]
+name = "corner-office-mcp"
+version = "1.0.0"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp>=1.0.0",
+    "psycopg2-binary>=2.9.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+corner-office-mcp = "server:main"
+
+[tool.setuptools]
+py-modules = ["server", "sql_validator"]

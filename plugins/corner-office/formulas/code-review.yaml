@@ -1,0 +1,9 @@
+name: code-review
+description: Multi-perspective code quality review across languages
+pattern: parallel
+agents:
+  - go-reviewer
+  - python-reviewer
+  - security-reviewer
+scope_template: "{target}"
+report_name: "code-review-{target}"

@@ -1,0 +1,10 @@
+{
+  "corner-office": {
+    "command": "uvx",
+    "args": ["--from", "${CLAUDE_PLUGIN_ROOT}/servers/mcp", "corner-office-mcp"]
+  },
+  "corner-office-channel": {
+    "command": "bun",
+    "args": ["${CLAUDE_PLUGIN_ROOT}/servers/channel/server.ts", "--debug"]
+  }
+}

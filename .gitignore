@@ -1,0 +1,11 @@
+.rix/
+docs/
+.idea/
+.impl-team/
+.review-panel/
+.serena/
+*.iml
+.assemble-team/
+.coverage
+build/
+*.egg-info/

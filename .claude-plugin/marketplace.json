@@ -1,0 +1,25 @@
+{
+  "name": "amer-plugins",
+  "owner": {
+    "name": "Amer Hassounah"
+  },
+  "metadata": {
+    "description": "Personal Claude Code plugins by Amer Hassounah",
+    "version": "1.17.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "corner-office",
+      "source": "./plugins/corner-office",
+      "description": "Personal developer toolkit: continuous learning, code review agents, architecture review panel, feature design, task planning, autonomous implementation teams, SQL database tools, composable workflow formulas, and workflow optimization.",
+      "version": "1.32.1",
+      "author": {
+        "name": "Amer Hassounah",
+        "email": "hassounah@gmail.com"
+      },
+      "license": "MIT",
+      "keywords": ["learning", "code-review", "security", "workflow", "solo-dev"]
+    }
+  ]
+}

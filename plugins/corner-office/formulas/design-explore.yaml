@@ -1,0 +1,9 @@
+name: design-explore
+description: Sequential requirements-to-plan pipeline — PM defines requirements, architect designs, planner creates implementation plan
+pattern: pipeline
+agents:
+  - product-manager
+  - system-architect
+  - task-planner
+scope_template: "{target}"
+report_name: "design-explore-{target}"

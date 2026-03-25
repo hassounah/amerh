@@ -1,0 +1,9 @@
+name: full-stack-review
+description: Panel review with cross-discussion — backend, security, and UX architects review independently then challenge each other
+pattern: panel
+agents:
+  - backend-architect
+  - security-architect
+  - ux-dx-architect
+scope_template: "{target}"
+report_name: "full-stack-review-{target}"

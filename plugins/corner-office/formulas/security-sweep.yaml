@@ -1,0 +1,8 @@
+name: security-sweep
+description: Sequential security analysis — reviewer finds issues, architect assesses architecture
+pattern: pipeline
+agents:
+  - security-reviewer
+  - security-architect
+scope_template: "{target}"
+report_name: "security-sweep-{target}"
