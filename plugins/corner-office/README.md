@@ -5,8 +5,8 @@ Personal developer toolkit for Claude Code. Provides a full engineering pipeline
 ## Quick Start
 
 ```bash
-/plugin marketplace add ~/.claude/plugins/repos/amer-plugins
-/plugin install corner-office@amer-plugins
+/plugin marketplace add hassounah/amerh
+/plugin install corner-office@amerh
 ```
 
 ## Rix — Persistent Dev Manager
@@ -43,7 +43,7 @@ Rix maintains project memory in `.rix/` at the git root, surviving across sessio
 ```
 .rix/
 ├── memory.md          # Project context, decisions log, backlog, learned conventions
-├── active-pipeline.md # Current pipeline state (created on start, deleted on ship)
+├── pipelines/         # Per-feature pipeline cards + lock files (multi-session)
 └── history.md         # Shipped features log
 ```
 

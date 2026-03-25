@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Claude Code plugin marketplace (`amer-plugins`) containing the `corner-office` plugin. The plugin provides continuous learning via session observation hooks, specialized code review agents, and workflow optimization tools.
+This is a Claude Code plugin marketplace (`amerh`) containing the `corner-office` plugin. The plugin provides continuous learning via session observation hooks, specialized code review agents, and workflow optimization tools.
 
 ## Repository Layout
 
@@ -45,6 +45,6 @@ python -m pytest plugins/corner-office/skills/continuous-learning-v2/scripts/tes
 ## Plugin Installation (for testing)
 
 ```bash
-/plugin marketplace add ~/.claude/plugins/repos/amer-plugins
-/plugin install corner-office@amer-plugins
+/plugin marketplace add hassounah/amerh
+/plugin install corner-office@amerh
 ```
