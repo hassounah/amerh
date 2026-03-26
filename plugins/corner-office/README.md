@@ -163,7 +163,7 @@ Composable YAML presets for `/assemble-team`. Use `--formula <name>` to load, ov
 
 ### Hooks (20 events)
 
-**Activity tracking** — `emit_activity` hooks on all 20 event types forward every Claude session event to connected clients via the channel server. This gives any consuming application full visibility into session activity (tool use, agent spawning, task completion, permission requests, etc.).
+**Activity tracking** — `emit_activity` hooks on all 20 event types forward every Claude session event to `~/.corner-office/events/` as JSONL. Disabled by default — events only flow when `~/.corner-office/events/enabled` exists. The Corner Office app manages this automatically via its hook install/uninstall mechanism.
 
 **Specialized hooks** (on top of activity tracking):
 - **PreToolUse** - Strategic compact suggestions on Edit/Write
@@ -198,6 +198,22 @@ The `/rix` dev manager stores its persistent memory in `.rix/` at the project ro
 ├── pipelines/         # Per-feature pipeline cards + lock files (multi-session)
 └── history.md         # Shipped features log
 ```
+
+## Event System
+
+`emit_activity` writes tool-use events to `~/.corner-office/events/` as JSONL. Events are **disabled by default**. To enable:
+
+```bash
+touch ~/.corner-office/events/enabled
+```
+
+To disable:
+
+```bash
+rm ~/.corner-office/events/enabled
+```
+
+The Corner Office app manages this automatically — events activate when hooks are installed via the app and deactivate when uninstalled. Events continue to accumulate while the app is shut down, and the app catches up on missed events when it restarts.
 
 ## Disabling Observation Hooks
 
