@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 MAX_STDIN = 262144       # 256KB
 MAX_FIELD_SIZE = 32768   # 32KB per-field truncation
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB rotation threshold
+EVENTS_ROOT = os.path.join(os.path.expanduser("~"), ".corner-office", "events")
 
 
 def _truncate_fields(obj):
@@ -33,6 +34,9 @@ def _get_workspace_slug(cwd):
 
 
 def main():
+    if not os.path.exists(os.path.join(EVENTS_ROOT, "enabled")):
+        return
+
     raw = sys.stdin.buffer.read(MAX_STDIN)
     if not raw:
         return
@@ -70,8 +74,7 @@ def main():
     }
     entry.update(truncated_dict)
 
-    home = os.path.expanduser("~")
-    workspace_dir = os.path.join(home, ".corner-office", "events", workspace)
+    workspace_dir = os.path.join(EVENTS_ROOT, workspace)
     os.makedirs(workspace_dir, mode=0o700, exist_ok=True)
 
     filepath = os.path.join(workspace_dir, f"{short_id}.jsonl")

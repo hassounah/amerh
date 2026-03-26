@@ -6,7 +6,7 @@ Personal Claude Code plugin marketplace by Amer Hassounah.
 
 | Plugin | Version | Description |
 |--------|---------|-------------|
-| **[corner-office](#corner-office)** | 1.32.1 | Persistent dev manager (Rix) with 3-pipeline system, continuous learning, code review agents, architecture review panel, autonomous implementation teams, SQL database tools, composable workflow formulas, and channel server with permission relay |
+| **[corner-office](#corner-office)** | 1.32.2 | Persistent dev manager (Rix) with 3-pipeline system, continuous learning, code review agents, architecture review panel, autonomous implementation teams, SQL database tools, composable workflow formulas, and channel server with permission relay |
 
 ## Installation
 
@@ -128,7 +128,7 @@ Composable YAML presets for `/assemble-team` — override agents with `+agent`, 
 
 ### Hooks (20 events)
 
-`emit_activity` hooks on all 20 event types forward every Claude session event to connected clients via the channel server. Specialized hooks on 7 core events handle strategic compaction, session start/end, handoff capture, registration card refresh, and code quality checks.
+`emit_activity` hooks on all 20 event types write session events to `~/.corner-office/events/` as JSONL. **Disabled by default** — events only flow when `~/.corner-office/events/enabled` exists. The Corner Office app manages this flag via its hook install/uninstall mechanism. Specialized hooks on 7 core events handle strategic compaction, session start/end, handoff capture, registration card refresh, and code quality checks.
 
 ---
 
