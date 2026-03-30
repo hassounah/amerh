@@ -372,9 +372,13 @@ log(`INFO WebSocket server listening on 127.0.0.1:${channelPort}`);
 // Patch registration card
 await patchRegistrationCard(channelPort, channelToken);
 
-// Cleanup on exit
-process.on("SIGTERM", () => { removeRegistrationCard(); process.exit(0); });
-process.on("SIGINT", () => { removeRegistrationCard(); process.exit(0); });
+// Cleanup on exit — do NOT remove the card on signal termination.
+// Card cleanup is handled by SessionEnd (_remove_channel_card) and
+// SessionStart (_cleanup_stale_cards).  Removing here causes a race
+// when Claude Code restarts the MCP server: the old process deletes
+// the card before the new process can patch it, leaving the channel dead.
+process.on("SIGTERM", () => { process.exit(0); });
+process.on("SIGINT", () => { process.exit(0); });
 
 // Heartbeat
 setInterval(() => {

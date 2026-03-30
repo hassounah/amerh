@@ -13,7 +13,7 @@
       "name": "corner-office",
       "source": "./plugins/corner-office",
       "description": "Personal developer toolkit: continuous learning, code review agents, architecture review panel, feature design, task planning, autonomous implementation teams, SQL database tools, composable workflow formulas, and workflow optimization.",
-      "version": "1.32.2",
+      "version": "1.32.3",
       "author": {
         "name": "Amer Hassounah",
         "email": "hassounah@gmail.com"
