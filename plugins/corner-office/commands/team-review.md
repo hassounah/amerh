@@ -61,7 +61,7 @@ Create 4 tasks:
 
 ### Step 3: Spawn the Architect Teammates
 
-Spawn all 3 architects **in parallel** (single message with 3 Agent tool calls). Pass each a `name` matching its role (`security-architect`, `backend-architect`, `ux-dx-architect`) — they join the session's implicit team and become addressable by that name via `SendMessage`. Subagents inherit the session's permission mode — do not pass a `mode:` parameter, it is ignored. File writes, MCP tools, and Bash are covered by the session mode plus `permissions.allow` rules in project settings.
+Spawn all 3 architects **in parallel** (single message with 3 Agent tool calls). Pass each a `name` matching its role (`security-architect`, `backend-architect`, `ux-dx-architect`) — they join the session's implicit team and become addressable by that name via `SendMessage`.
 
 Each architect gets a prompt with this structure:
 

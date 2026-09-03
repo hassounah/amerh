@@ -148,13 +148,12 @@ Shared task list with dependencies. Agents claim tasks from their queue and coor
 1. **Event-driven coordination.** Lead reacts to agent messages. NEVER poll. NEVER sleep. NEVER loop on TaskList. React → process → wake blocked agents → go idle.
 2. **Agent tool.** Agents are spawned as teammates via the Agent tool with a `name` parameter. Do not pass `team_name` — it is deprecated and ignored; the session has one implicit team that spawned agents join automatically. Named teammates have persistent identity and message passing.
 3. **Agent personas.** Each agent is spawned using its `subagent_type` from the roster. The agent definition IS its persona — system prompt, tools, model all come from the agent file.
-4. **Permissions.** Agents inherit the session's permission mode. Do not pass `mode:` when spawning — it is ignored. An agent needing a different posture sets it in its own definition frontmatter.
-5. **Idle protocol.** Agents send ONE status message when blocked/empty, then go SILENT. No periodic updates. Pre-read source while waiting.
-6. **Reports to files.** ALL output written to `{reports_root}/reports/`. Agents send 1-line status messages ONLY. Full analysis goes in report files, never in messages.
-7. **Trust task descriptions.** Agents read only files mentioned in tasks. No broad codebase exploration unless code doesn't match.
-8. **Max 4 agents.** Reject requests exceeding 4 agents.
-9. **No git commits.** Agents do not commit. User commits when ready.
-10. **Shutdown and cleanup.** After completion: send shutdown requests to all teammates and wait for acknowledgments. There is no team to delete.
+4. **Idle protocol.** Agents send ONE status message when blocked/empty, then go SILENT. No periodic updates. Pre-read source while waiting.
+5. **Reports to files.** ALL output written to `{reports_root}/reports/`. Agents send 1-line status messages ONLY. Full analysis goes in report files, never in messages.
+6. **Trust task descriptions.** Agents read only files mentioned in tasks. No broad codebase exploration unless code doesn't match.
+7. **Max 4 agents.** Reject requests exceeding 4 agents.
+8. **No git commits.** Agents do not commit. User commits when ready.
+9. **Shutdown and cleanup.** After completion: send shutdown requests to all teammates and wait for acknowledgments. There is no team to delete.
 
 ## Token Efficiency Directives
 

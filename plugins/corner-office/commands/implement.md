@@ -36,7 +36,6 @@ These are baked into all prompts and task structures:
 7. **Scoped test commands**: Each task includes a narrowed test scope (e.g., `go test ./internal/security/...`) instead of running full suite. Full suite only in the Final task.
 8. **Trust task descriptions**: Agents read only the files mentioned in task descriptions. No broad codebase exploration unless code doesn't match expectations.
 9. **No commits**: Agents focus on implementation/review only. No git commits — the user commits when ready.
-10. **Permissions**: Agents inherit the session's permission mode — no `mode:` parameter is passed when spawning (it is ignored). File operations, MCP tools, and Bash are covered by the session mode plus `permissions.allow` rules in project settings.
 
 ## Process
 
@@ -215,8 +214,6 @@ reviewer-tester-2 queue: Review+Verify 2 → Review+Verify 4 → Review+Verify 6
 2. Prepare a **brief feature overview** (2-3 sentences summarizing what the plan implements). This goes in every agent prompt instead of the full plan content.
 
 3. Spawn agents **in parallel** (single message with 2 or 4 Agent tool calls). Pass each agent a `name` (`dev-1`, `dev-2`, ...) — they join the session's implicit team and become addressable by that name via `SendMessage`.
-
-   **NOTE**: Do not pass a `mode:` parameter when spawning — it is ignored. Subagents inherit the session's permission mode, and an agent that needs a different posture declares it in its own definition frontmatter. File operations, MCP tools, and Bash are covered by the session mode plus `permissions.allow` rules in the user's project settings.
 
 #### Default mode — spawn 2 agents
 
