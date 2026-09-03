@@ -1,7 +1,6 @@
 ---
 name: evolve
 description: Cluster related instincts into skills, commands, or agents
-command: true
 ---
 
 # Evolve Command

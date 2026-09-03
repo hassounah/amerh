@@ -1,7 +1,6 @@
 ---
 name: seance
 description: Recover context from past handoff documents after compaction or session restart. Auto-loads the most recent handoff or browse history with --list.
-command: true
 allowed-tools: ["Read", "Glob", "AskUserQuestion"]
 argument-hint: "[--list]"
 ---

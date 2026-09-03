@@ -1,7 +1,7 @@
 ---
 name: developer
 description: Full-stack developer for implementation teams. Implements code from task plans, performs peer code reviews and verification using language-specific reviewer agents (go-reviewer, python-reviewer, database-reviewer), and runs tests/linters before handoff. Works as a teammate alongside another developer and a QA tester in /implement teams.
-tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob", "Task", "mcp__*", "ToolSearch"]
+tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob", "Agent", "SendMessage", "TaskList", "TaskGet", "TaskUpdate", "TaskCreate", "mcp__*", "ToolSearch"]
 model: sonnet
 color: green
 ---
@@ -71,7 +71,7 @@ When your queue includes Review+Verify tasks:
 2. **Read changed files** — use `git diff` or read the files directly
 3. **Count lines changed** to determine review approach:
    - **<200 lines**: Review the code directly yourself. Check for bugs, security issues, code quality, naming, error handling.
-   - **≥200 lines**: Spawn specialist reviewer agent(s) via Task tool based on file types:
+   - **≥200 lines**: Spawn specialist reviewer agent(s) via the Agent tool (`subagent_type`) based on file types:
      - `.go` files → `corner-office:go-reviewer`
      - `.py` files → `corner-office:python-reviewer`
      - SQL/migration files → `corner-office:database-reviewer`

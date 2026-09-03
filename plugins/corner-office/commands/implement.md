@@ -1,12 +1,11 @@
 ---
 name: implement
 description: Launch an implementation team that autonomously implements a plan through a 2-gate quality pipeline. Default (2 devs, cross-review) or --full-team (2 devs + 2 reviewer-testers).
-command: true
-allowed-tools: ["AskUserQuestion", "Task", "Read", "Write", "Glob", "Grep", "Bash", "TeamCreate", "TeamDelete", "SendMessage", "TaskCreate", "TaskUpdate", "TaskList", "TaskGet"]
+allowed-tools: ["AskUserQuestion", "Agent", "Read", "Write", "Glob", "Grep", "Bash", "SendMessage", "TaskCreate", "TaskUpdate", "TaskList", "TaskGet"]
 argument-hint: "[--full-team] [path/to/plan-file.md]"
 ---
 
-# /implement - Implementation Team (v6)
+# /implement - Implementation Team (v7)
 
 ## Modes
 
@@ -29,7 +28,7 @@ argument-hint: "[--full-team] [path/to/plan-file.md]"
 These are baked into all prompts and task structures:
 
 1. **Idle protocol**: Agents send ONE "blocked/empty" message, then go SILENT. No periodic updates. Pre-read source code while waiting.
-2. **Threshold reviewer subagents**: <200 lines changed = review code directly. ≥200 lines = spawn specialist (go-reviewer, python-reviewer, database-reviewer, ux-dx-architect) via Task tool.
+2. **Threshold reviewer subagents**: <200 lines changed = review code directly. ≥200 lines = spawn specialist (go-reviewer, python-reviewer, database-reviewer, ux-dx-architect) via the Agent tool (`subagent_type: go-reviewer` etc).
 3. **Per-step dependency flow**: No artificial phase gates. Steps flow based on explicit plan dependencies + file conflict detection (function-level when line numbers available, file-level fallback). Steps that don't conflict run in parallel even across phases.
 4. **Reduced prompts**: Agents get a brief feature overview + their task queue (subjects only). Full step details live in TaskList descriptions, read via TaskGet when claiming a task.
 5. **Event-driven coordination**: Team lead reacts to agent messages instead of polling. After every task completion, immediately checks for and notifies agents of unblocked tasks.
@@ -37,7 +36,7 @@ These are baked into all prompts and task structures:
 7. **Scoped test commands**: Each task includes a narrowed test scope (e.g., `go test ./internal/security/...`) instead of running full suite. Full suite only in the Final task.
 8. **Trust task descriptions**: Agents read only the files mentioned in task descriptions. No broad codebase exploration unless code doesn't match expectations.
 9. **No commits**: Agents focus on implementation/review only. No git commits — the user commits when ready.
-10. **Accept edits mode**: All agents spawned with `mode: "acceptEdits"` so file operations proceed without prompting. MCP tools and Bash commands are pre-approved via `permissions.allow` rules in project settings.
+10. **Permissions**: Agents inherit the session's permission mode — no `mode:` parameter is passed when spawning (it is ignored). File operations, MCP tools, and Bash are covered by the session mode plus `permissions.allow` rules in project settings.
 
 ## Process
 
@@ -210,18 +209,14 @@ reviewer-tester-1 queue: Review+Verify 1 → Review+Verify 3 → Review+Verify 5
 reviewer-tester-2 queue: Review+Verify 2 → Review+Verify 4 → Review+Verify 6 → ...
 ```
 
-### Step 4: Create Team and Spawn Agents
+### Step 4: Spawn Agents
 
 1. Create the reports directory: `mkdir -p {feature_dir}/{team_dir}/reports`
-2. Create the team:
-   ```
-   TeamCreate with team_name: "{slug}-impl-team", description: "Implementation team for [plan name]"
-   ```
-3. Prepare a **brief feature overview** (2-3 sentences summarizing what the plan implements). This goes in every agent prompt instead of the full plan content.
+2. Prepare a **brief feature overview** (2-3 sentences summarizing what the plan implements). This goes in every agent prompt instead of the full plan content.
 
-4. Spawn agents **in parallel** (single message with 2 or 4 Task tool calls).
+3. Spawn agents **in parallel** (single message with 2 or 4 Agent tool calls). Pass each agent a `name` (`dev-1`, `dev-2`, ...) — they join the session's implicit team and become addressable by that name via `SendMessage`.
 
-   **IMPORTANT**: Spawn ALL agents with `mode: "acceptEdits"` so file operations (Read, Write, Edit, Glob, Grep) proceed without prompting. MCP tools and Bash commands are covered by `permissions.allow` rules in the user's project settings — do NOT use `bypassPermissions`. This applies to all agent types — developer and reviewer-tester alike.
+   **NOTE**: Do not pass a `mode:` parameter when spawning — it is ignored. Subagents inherit the session's permission mode, and an agent that needs a different posture declares it in its own definition frontmatter. File operations, MCP tools, and Bash are covered by the session mode plus `permissions.allow` rules in the user's project settings.
 
 #### Default mode — spawn 2 agents
 
@@ -248,7 +243,7 @@ Working directory: [PATH]
 2. **Review+Verify before next Implement.** After completing any Implement task, you MUST complete all unblocked Review+Verify tasks in your queue before starting the next Implement.
 3. **Never review your own code.** You only review+verify code implemented by dev-2.
 4. **Self-check before handoff.** Run linter, tests (use scoped test command from task description), verify >85% coverage on every implementation before marking complete.
-5. **Threshold reviewer subagents.** For Review+Verify tasks: if the change is ≥200 lines, spawn the appropriate specialist reviewer (go-reviewer for .go, python-reviewer for .py, database-reviewer for SQL, ux-dx-architect for frontend) via Task tool. If <200 lines, review the code directly yourself.
+5. **Threshold reviewer subagents.** For Review+Verify tasks: if the change is ≥200 lines, spawn the appropriate specialist reviewer (go-reviewer for .go, python-reviewer for .py, database-reviewer for SQL, ux-dx-architect for frontend) via the Agent tool (`subagent_type: go-reviewer` etc). If <200 lines, review the code directly yourself.
 6. **Write reports to files.** Write full review+verify reports to `{feature_dir}/{team_dir}/reports/review-[step-name].md`. Send ONLY brief status messages (1 line).
 7. **Plan-reality mismatches: STOP and message team lead.**
 8. **Idle protocol.** If your queue is empty or fully blocked, send ONE message: "Queue empty" or "Queue blocked". Then go SILENT. Pre-read source code for upcoming tasks while waiting. Do NOT send periodic status updates. You will be messaged when work is available.
@@ -341,7 +336,7 @@ N. Final: Run full test suites
 ## Rules (NON-NEGOTIABLE)
 
 1. **Work from YOUR queue only.**
-2. **Threshold reviewer subagents.** If change ≥200 lines, spawn specialist reviewer (go-reviewer, python-reviewer, database-reviewer, ux-dx-architect) via Task tool. If <200 lines, review directly.
+2. **Threshold reviewer subagents.** If change ≥200 lines, spawn specialist reviewer (go-reviewer, python-reviewer, database-reviewer, ux-dx-architect) via the Agent tool (`subagent_type: go-reviewer` etc). If <200 lines, review directly.
 3. **Write reports to files.** Write all reports to `{feature_dir}/{team_dir}/reports/review-[step-name].md`. Send ONLY brief status messages (1 line).
 4. **Pre-read while waiting.** Read source code for upcoming tasks while blocked. This is your highest-value use of wait time.
 5. **Idle protocol.** If queue fully blocked, send ONE message: "Queue blocked". Then go SILENT. Pre-read code. You will be messaged when work is available.
@@ -459,7 +454,6 @@ When all Review+Verify tasks AND the Final task are complete:
 5. **Clean up:**
    - Send shutdown requests to all teammates
    - Wait for acknowledgments
-   - TeamDelete
 
 ### Report Format
 
@@ -559,10 +553,12 @@ Full retrospective: `{feature_dir}/{team_dir}/retrospective.md`
 ## Notes
 
 - Completes the workflow pipeline: `/feature-design` → `/task-plan` → `/implement`
+- **v7 changes**: Aligned with the current Claude Code tool API — `Task` tool renamed to `Agent`, `TeamCreate`/`TeamDelete` removed (teams are implicit; spawning a named agent joins the session team), spawn-time `mode:` parameter dropped (ignored — subagents inherit the session mode).
 - **v6 changes**: Full-team mode upgraded to 4 agents (2 devs + 2 reviewer-testers) — eliminates dev idle time from single reviewer bottleneck. Added cross-team retrospective after Final task — agents share what went well, what didn't, and improvement suggestions.
-- **v5 changes**: Replaced `bypassPermissions` with `acceptEdits` mode — file operations auto-approved, MCP tools and Bash covered by `permissions.allow` rules in project settings. Safer permission model that doesn't bypass safety checks.
+- **v5 changes**: Replaced `bypassPermissions` with `acceptEdits` mode. (Superseded in v7: the spawn-time `mode:` parameter is ignored by current Claude Code — subagents inherit the session mode.)
 - **v4 changes**: Event-driven team lead coordination (react to messages, don't poll). Agent wake-up on task unblock (team lead notifies agents when their tasks unblock). Trivial step batching (combine <20-line single-file steps into one task). Function-level file conflict detection (parallel steps that touch different functions in the same file). Pre-computed test scope per task (scoped `go test` instead of `./...`). Trust-task-descriptions directive (agents read only mentioned files, skip broad exploration).
 - **v3 changes**: Merged review+verify into one gate (2-gate pipeline). Default mode uses 2 devs instead of 3 agents (~40-50% token savings). Per-step dependency flow replaces phase gates. Threshold reviewer subagent spawning (200 line threshold). Idle protocol eliminates chatter. Reduced prompts cut spawn cost.
 - The team runs fully autonomously unless a developer discovers a plan-reality mismatch
 - Per-step file conflict detection provides finer-grained parallelism than phase gates
-- Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` enabled
+- Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` enabled (for the `TaskCreate`/`TaskList`/`TaskGet`/`TaskUpdate` task tools)
+- Teams are implicit: a session has exactly one team, and spawning a named agent joins it. There is no team to create or delete.

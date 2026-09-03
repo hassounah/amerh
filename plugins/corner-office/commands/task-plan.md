@@ -1,8 +1,7 @@
 ---
 name: task-plan
 description: Create a detailed task implementation plan based on a TRD, it should use the task-planner agent, if no TRD is provided guide the user through
-command: true
-allowed-tools: ["AskUserQuestion", "Task", "Read", "Glob", "Write", "TaskCreate", "TaskUpdate", "TaskList"]
+allowed-tools: ["AskUserQuestion", "Agent", "Read", "Glob", "Write", "TaskCreate", "TaskUpdate", "TaskList"]
 argument-hint: "[path/to/trd.md or path/to/feature-dir/trd.md, or leave blank to find existing TRDs]"
 ---
 
@@ -30,10 +29,10 @@ Create a detailed, phased implementation plan from a Technical Requirement Docum
 
 ### Step 2: Launch Task Planner Agent
 
-Once you have the TRD content, spawn the `task-planner` agent using the Task tool:
+Once you have the TRD content, spawn the `task-planner` agent using the Agent tool:
 
 ```
-Use the Task tool with:
+Use the Agent tool with:
 - subagent_type: "corner-office:task-planner"
 - prompt: Include the FULL TRD content (not just a summary) along with these instructions:
   "Analyze this Technical Requirement Document and create a comprehensive implementation plan.

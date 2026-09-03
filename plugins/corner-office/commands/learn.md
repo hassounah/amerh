@@ -1,7 +1,6 @@
 ---
 name: learn
 description: Extract reusable patterns from the current session
-command: true
 ---
 
 # /learn - Extract Reusable Patterns

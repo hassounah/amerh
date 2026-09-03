@@ -1,7 +1,7 @@
 ---
 name: security-architect
 description: Security architecture reviewer for team-based reviews. Evaluates threat models, authentication, authorization, data protection, input validation, secrets management, compliance, and attack surface. Designed to work as a teammate in a /team-review panel alongside backend-architect and ux-dx-architect.
-tools: ["Read", "Write", "Grep", "Glob", "Bash", "mcp__*", "ToolSearch"]
+tools: ["Read", "Write", "Grep", "Glob", "Bash", "SendMessage", "TaskList", "TaskGet", "TaskUpdate", "mcp__*", "ToolSearch"]
 model: opus
 ---
 

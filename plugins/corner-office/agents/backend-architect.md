@@ -1,7 +1,7 @@
 ---
 name: backend-architect
 description: Backend and systems architecture reviewer for team-based reviews. Evaluates system design, scalability, data modeling, API design, performance, reliability, error handling, and observability. Designed to work as a teammate in a /team-review panel alongside security-architect and ux-dx-architect.
-tools: ["Read", "Write", "Grep", "Glob", "Bash", "mcp__*", "ToolSearch"]
+tools: ["Read", "Write", "Grep", "Glob", "Bash", "SendMessage", "TaskList", "TaskGet", "TaskUpdate", "mcp__*", "ToolSearch"]
 model: sonnet
 ---
 

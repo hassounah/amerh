@@ -1,8 +1,7 @@
 ---
 name: team-review
 description: Launch a 3-architect review panel (security, backend, UX/DX) that collaborates as an agent team to produce a comprehensive review
-command: true
-allowed-tools: ["AskUserQuestion", "Task", "Read", "Write", "Glob", "Grep", "Bash", "TeamCreate", "TeamDelete", "SendMessage", "TaskCreate", "TaskUpdate", "TaskList", "TaskGet"]
+allowed-tools: ["AskUserQuestion", "Agent", "Read", "Write", "Glob", "Grep", "Bash", "SendMessage", "TaskCreate", "TaskUpdate", "TaskList", "TaskGet"]
 argument-hint: "[what to review: PR #123, path/to/file, 'the auth module', etc.]"
 ---
 
@@ -51,23 +50,18 @@ Derive a slug from the review target — this is used for the team name and find
 - Else if a feature directory exists (target is inside a slug directory): use `{feature_dir}/.review-panel/`
 - Otherwise, use `.review-panel/` at the working directory root
 
-### Step 2: Create the Team and Tasks
+### Step 2: Create the Tasks
 
-1. Create the review team:
-   ```
-   TeamCreate with team_name: "{slug}-review-panel", description: "Architecture review panel for [review target]"
-   ```
+Create 4 tasks:
 
-2. Create 4 tasks:
-
-   **Task 1: Security Review** — assigned to security-architect
-   **Task 2: Backend Review** — assigned to backend-architect
-   **Task 3: UX/DX Review** — assigned to ux-dx-architect
-   **Task 4: Cross-Cutting Discussion** — unassigned, blocked by Tasks 1-3
+- **Task 1: Security Review** — assigned to security-architect
+- **Task 2: Backend Review** — assigned to backend-architect
+- **Task 3: UX/DX Review** — assigned to ux-dx-architect
+- **Task 4: Cross-Cutting Discussion** — unassigned, blocked by Tasks 1-3
 
 ### Step 3: Spawn the Architect Teammates
 
-Spawn all 3 architects **in parallel** (single message with 3 Task tool calls). All agents spawned with `mode: "acceptEdits"` so they can write review files without prompting. MCP tools and Bash are covered by `permissions.allow` rules in project settings.
+Spawn all 3 architects **in parallel** (single message with 3 Agent tool calls). Pass each a `name` matching its role (`security-architect`, `backend-architect`, `ux-dx-architect`) — they join the session's implicit team and become addressable by that name via `SendMessage`. Subagents inherit the session's permission mode — do not pass a `mode:` parameter, it is ignored. File writes, MCP tools, and Bash are covered by the session mode plus `permissions.allow` rules in project settings.
 
 Each architect gets a prompt with this structure:
 
@@ -237,8 +231,7 @@ When all 3 architects have sent "discussion complete":
 
 1. Send shutdown requests to all 3 architect teammates
 2. Wait for acknowledgments
-3. TeamDelete
-4. Tell the user where the review document was saved
+3. Tell the user where the review document was saved
 
 ## Example Usage
 
@@ -252,8 +245,9 @@ When all 3 architects have sent "discussion complete":
 
 ## Notes
 
-- The review team uses the agent teams feature (requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` enabled)
-- Each architect runs as a separate Opus-powered Claude session
+- The review team uses the agent teams feature (requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` enabled for the task tools)
+- Teams are implicit: spawning a named agent joins the session's single team. There is no team to create or delete.
+- Each architect runs as a separate Claude session — see each agent's `model` frontmatter for its tier
 - Architects write findings to files, not to messages — keeps message traffic minimal
 - Discussion phase is peer-to-peer: architects message each other directly, team lead does not facilitate
 - Team lead's only active job: detect all reviews complete → trigger discussion → detect all discussions complete → consolidate

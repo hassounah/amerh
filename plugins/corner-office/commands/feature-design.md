@@ -1,8 +1,7 @@
 ---
 name: feature-design
 description: Design a new feature with cross-repository system analysis and produce a Technical Requirement Document (TRD)
-command: true
-allowed-tools: ["AskUserQuestion", "Task", "Read", "Glob", "Bash"]
+allowed-tools: ["AskUserQuestion", "Agent", "Read", "Glob", "Bash"]
 argument-hint: "[feature description] [--output-dir path/to/feature/dir]"
 ---
 
@@ -36,10 +35,10 @@ Design a feature by first understanding the full system across all repositories,
 
 ### Step 2: Launch System Architect
 
-Once you have a clear feature description, spawn the `system-architect` agent using the Task tool:
+Once you have a clear feature description, spawn the `system-architect` agent using the Agent tool:
 
 ```
-Use the Task tool with:
+Use the Agent tool with:
 - subagent_type: "corner-office:system-architect"
 - prompt: Include the full feature description, target user, problem statement, and any constraints gathered in Step 1. Also include the working directory path so the agent knows where to discover repositories. If --output-dir was provided, include it in the prompt so the agent writes the TRD to that directory.
 ```

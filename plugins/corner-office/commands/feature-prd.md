@@ -1,8 +1,7 @@
 ---
 name: feature-prd
 description: Produce a research-backed Product Requirements Document (PRD) with competitive analysis, user stories, and success metrics. All market claims are sourced via web research. Feeds into /feature-design for technical handoff.
-command: true
-allowed-tools: ["AskUserQuestion", "Task", "Read", "Glob", "Bash"]
+allowed-tools: ["AskUserQuestion", "Agent", "Read", "Glob", "Bash"]
 argument-hint: "[feature/product description or leave blank for guided walkthrough]"
 ---
 
@@ -40,10 +39,10 @@ Define what to build and why — with sourced market research, competitive analy
 
 ### Step 2: Launch Product Manager
 
-Once you have a clear product context, spawn the `product-manager` agent using the Task tool:
+Once you have a clear product context, spawn the `product-manager` agent using the Agent tool:
 
 ```
-Use the Task tool with:
+Use the Agent tool with:
 - subagent_type: "corner-office:product-manager"
 - prompt: Include the full feature description, target user, problem statement, competitive references, and any constraints gathered in Step 1. Include the working directory path so the agent knows where to write the PRD.
 ```
