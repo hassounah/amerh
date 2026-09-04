@@ -1,8 +1,7 @@
 ---
 name: rix
 description: Persistent Dev Manager — orchestrates /feature-design, /team-review, /task-plan, /implement, and /assemble-team. Auto-selects direct (Rix does it), light (design-implement-review), or full (3-gate) pipeline based on scope.
-command: true
-allowed-tools: ["AskUserQuestion", "Skill", "Task", "Read", "Write", "Edit", "Glob", "Grep", "Bash", "TeamCreate", "TeamDelete", "SendMessage", "TaskCreate", "TaskUpdate", "TaskList", "TaskGet"]
+allowed-tools: ["AskUserQuestion", "Skill", "Agent", "Read", "Write", "Edit", "Glob", "Grep", "Bash", "SendMessage", "TaskCreate", "TaskUpdate", "TaskList", "TaskGet"]
 argument-hint: "[feature description or leave blank to wait for requests]"
 ---
 

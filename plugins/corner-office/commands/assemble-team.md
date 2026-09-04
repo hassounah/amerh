@@ -1,8 +1,7 @@
 ---
 name: assemble-team
-description: Assemble and spawn a custom team of agent personas using pre-configured coordination patterns (parallel, pipeline, panel, collaborative). Event-driven, token-efficient team creation via TeamCreate + Task tool.
-command: true
-allowed-tools: ["AskUserQuestion", "Task", "Read", "Write", "Glob", "Grep", "Bash", "TeamCreate", "TeamDelete", "SendMessage", "TaskCreate", "TaskUpdate", "TaskList", "TaskGet"]
+description: Assemble and spawn a custom team of agent personas using pre-configured coordination patterns (parallel, pipeline, panel, collaborative). Event-driven, token-efficient team creation via the Agent tool.
+allowed-tools: ["AskUserQuestion", "Agent", "Read", "Write", "Glob", "Grep", "Bash", "SendMessage", "TaskCreate", "TaskUpdate", "TaskList", "TaskGet"]
 argument-hint: "<pattern> --agents <agent1,agent2,...> --scope <target> | --formula <name> --scope <target> [--agents <+/-override> | --agents-replace <list>] | --list-formulas"
 ---
 
@@ -18,7 +17,7 @@ Assemble and spawn a team of agent personas using pre-configured coordination pa
 
 ## Agent Roster
 
-Available agent personas. Each is spawned as a teammate via TeamCreate + Task tool using its `subagent_type`. The agent definition IS the persona — system prompt, tools, and model all come from the agent file.
+Available agent personas. Each is spawned as a teammate via the Agent tool using its `subagent_type`. The agent definition IS the persona — system prompt, tools, and model all come from the agent file.
 
 | Agent | subagent_type | Expertise |
 |-------|---------------|-----------|
@@ -147,15 +146,14 @@ Shared task list with dependencies. Agents claim tasks from their queue and coor
 ## Non-Negotiable Rules (ALL Patterns)
 
 1. **Event-driven coordination.** Lead reacts to agent messages. NEVER poll. NEVER sleep. NEVER loop on TaskList. React → process → wake blocked agents → go idle.
-2. **TeamCreate + Task tool.** Teams are created via TeamCreate. Agents are spawned as teammates via Task tool with `team_name` and `name` parameters. They are team members with persistent identity and message passing.
+2. **Agent tool.** Agents are spawned as teammates via the Agent tool with a `name` parameter. Do not pass `team_name` — it is deprecated and ignored; the session has one implicit team that spawned agents join automatically. Named teammates have persistent identity and message passing.
 3. **Agent personas.** Each agent is spawned using its `subagent_type` from the roster. The agent definition IS its persona — system prompt, tools, model all come from the agent file.
-4. **acceptEdits mode.** ALL agents spawned with `mode: "acceptEdits"`.
-5. **Idle protocol.** Agents send ONE status message when blocked/empty, then go SILENT. No periodic updates. Pre-read source while waiting.
-6. **Reports to files.** ALL output written to `{reports_root}/reports/`. Agents send 1-line status messages ONLY. Full analysis goes in report files, never in messages.
-7. **Trust task descriptions.** Agents read only files mentioned in tasks. No broad codebase exploration unless code doesn't match.
-8. **Max 4 agents.** Reject requests exceeding 4 agents.
-9. **No git commits.** Agents do not commit. User commits when ready.
-10. **Shutdown and cleanup.** After completion: send shutdown requests to all teammates, wait for acknowledgments, TeamDelete.
+4. **Idle protocol.** Agents send ONE status message when blocked/empty, then go SILENT. No periodic updates. Pre-read source while waiting.
+5. **Reports to files.** ALL output written to `{reports_root}/reports/`. Agents send 1-line status messages ONLY. Full analysis goes in report files, never in messages.
+6. **Trust task descriptions.** Agents read only files mentioned in tasks. No broad codebase exploration unless code doesn't match.
+7. **Max 4 agents.** Reject requests exceeding 4 agents.
+8. **No git commits.** Agents do not commit. User commits when ready.
+9. **Shutdown and cleanup.** After completion: send shutdown requests to all teammates and wait for acknowledgments. There is no team to delete.
 
 ## Token Efficiency Directives
 
@@ -235,8 +233,7 @@ Used for: team name `{slug}-team` and report paths.
 ### Step 4: Setup
 
 1. Create reports directory: `mkdir -p {reports_root}/reports` (where `{reports_root}` is either `{feature_dir}/.assemble-team/` or `.assemble-team/{slug}/`)
-2. Create team: `TeamCreate with team_name: "{slug}-team"`
-3. Prepare scope summary (2-3 sentences describing what the team is working on)
+2. Prepare scope summary (2-3 sentences describing what the team is working on)
 
 ### Step 5: Create Tasks
 
@@ -250,7 +247,7 @@ For all patterns:
 
 ### Step 6: Spawn Agents
 
-Spawn agents as teammates into the team via Task tool.
+Spawn agents as teammates via the Agent tool, one call per agent, each with its `subagent_type` from the roster and a `name`. They join the session's implicit team automatically.
 
 **Agent spawn prompt template:**
 ```
@@ -280,8 +277,6 @@ Use TaskGet to read full task descriptions. Start by checking TaskList.
 - **collaborative**: spawn ALL agents. Prompts note task dependencies.
 
 **All agents spawned with:**
-- `mode: "acceptEdits"`
-- `team_name: "{slug}-team"`
 - `name: "{agent-name}"` (or `"{agent-name}-1"` for duplicates)
 - `subagent_type: "corner-office:{agent-name}"`
 
@@ -314,7 +309,6 @@ Same protocol for all patterns:
 3. Show summary to user in console
 4. Send shutdown requests to all remaining teammates
 5. Wait for acknowledgments
-6. TeamDelete
 
 ### Team Report Format
 
@@ -442,6 +436,6 @@ The `{target}` placeholder is replaced by the `--scope` value at runtime. Formul
 ## Notes
 
 - This command complements `/implement` and `/team-review` — it does NOT replace them. Those commands have battle-tested, purpose-built coordination. Use `/assemble-team` when you need a team composition that doesn't fit those molds.
-- All coordination uses the same TeamCreate + Task + SendMessage machinery as `/implement`.
+- All coordination uses the same Agent + task-tool + SendMessage machinery as `/implement`.
 - Patterns are interaction models, not use cases. The same pattern works with any combination of agents.
-- Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` enabled.
+- Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` enabled (for the task tools). Teams themselves are implicit — there is nothing to create or delete.

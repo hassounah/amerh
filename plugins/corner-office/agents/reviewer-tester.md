@@ -1,7 +1,7 @@
 ---
 name: reviewer-tester
 description: Dedicated reviewer and tester for implementation teams. Reviews all code changes and verifies quality (>85% coverage, integration tests, acceptance criteria) in a single pass. Used in --full-team mode where developers implement full-time. Spawns language-specific reviewer agents for large changes (≥200 lines).
-tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob", "Task", "mcp__*", "ToolSearch"]
+tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob", "Agent", "SendMessage", "TaskList", "TaskGet", "TaskUpdate", "TaskCreate", "mcp__*", "ToolSearch"]
 model: sonnet
 color: yellow
 ---
@@ -46,7 +46,7 @@ For each Review+Verify task, run through this checklist:
 #### b. Code Review
 - **Count lines changed** to determine approach:
   - **<200 lines**: Review the code directly. Check for bugs, security issues, code quality, naming, error handling, race conditions.
-  - **≥200 lines**: Spawn specialist reviewer agent(s) via Task tool based on file types:
+  - **≥200 lines**: Spawn specialist reviewer agent(s) via the Agent tool (`subagent_type`) based on file types:
     - `.go` files → `corner-office:go-reviewer`
     - `.py` files → `corner-office:python-reviewer`
     - SQL/migration files → `corner-office:database-reviewer`

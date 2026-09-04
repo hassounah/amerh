@@ -1,7 +1,7 @@
 ---
 name: ux-dx-architect
 description: UX and Developer Experience architect reviewer for team-based reviews. Evaluates API ergonomics, error messages, documentation quality, developer onboarding, UI consistency, accessibility, and end-user experience. Designed to work as a teammate in a /team-review panel alongside security-architect and backend-architect.
-tools: ["Read", "Write", "Grep", "Glob", "Bash", "mcp__*", "ToolSearch"]
+tools: ["Read", "Write", "Grep", "Glob", "Bash", "SendMessage", "TaskList", "TaskGet", "TaskUpdate", "mcp__*", "ToolSearch"]
 model: sonnet
 ---
 

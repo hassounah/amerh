@@ -79,7 +79,7 @@ All pipeline documents are organized under a configurable `docs_root`:
 
 **Key properties:**
 - All patterns are fully event-driven — same coordination model as `/implement`
-- Agents are spawned as teammates via TeamCreate + Task tool with persistent identity and message passing
+- Agents are spawned as teammates via the Agent tool with persistent identity and message passing
 - Max 4 agents, idle protocol enforced, reports written to files (1-line status messages only)
 - Pipeline pattern lazy-spawns one agent at a time for maximum token efficiency
 - Complements `/implement` and `/team-review` — does NOT replace them
