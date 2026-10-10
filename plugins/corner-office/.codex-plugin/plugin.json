@@ -1,0 +1,9 @@
+{
+  "name": "corner-office",
+  "version": "1.34.0",
+  "description": "Personal developer toolkit: continuous learning, code review agents, architecture review panel, feature design, task planning, autonomous implementation teams, SQL database tools, composable workflow formulas, and workflow optimization.",
+  "author": { "name": "Amer Hassounah" },
+  "license": "MIT",
+  "keywords": ["learning", "code-review", "security", "workflow", "solo-dev"],
+  "mcpServers": "./.codex-plugin/mcp.json"
+}

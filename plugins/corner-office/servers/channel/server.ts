@@ -70,7 +70,7 @@ const pendingPermissions = new Set<string>();
 // --- MCP Server Setup (following Anthropic's fakechat example) ---
 
 const mcp = new Server(
-  { name: "corner-office-channel", version: "1.0.0" },
+  { name: "corner-office-channel", version: "1.34.0" },
   {
     capabilities: {
       experimental: {

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "corner-office": {
+      "command": "uvx",
+      "args": ["--from", "./servers/mcp", "corner-office-mcp"],
+      "cwd": "."
+    }
+  }
+}

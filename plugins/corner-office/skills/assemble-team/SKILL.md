@@ -435,7 +435,7 @@ The `{target}` placeholder is replaced by the `--scope` value at runtime. Formul
 
 ## Notes
 
-- This command complements `/implement` and `/team-review` — it does NOT replace them. Those commands have battle-tested, purpose-built coordination. Use `/assemble-team` when you need a team composition that doesn't fit those molds.
+- This skill complements `/implement` and `/team-review` — it does NOT replace them. Those skills have battle-tested, purpose-built coordination. Use `/assemble-team` when you need a team composition that doesn't fit those molds.
 - All coordination uses the same Agent + task-tool + SendMessage machinery as `/implement`.
 - Patterns are interaction models, not use cases. The same pattern works with any combination of agents.
 - Requires `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` enabled (for the task tools). Teams themselves are implicit — there is nothing to create or delete.

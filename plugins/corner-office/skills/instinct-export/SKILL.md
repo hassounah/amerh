@@ -3,7 +3,7 @@ name: instinct-export
 description: Export instincts for sharing with teammates or other projects
 ---
 
-# Instinct Export Command
+# Instinct Export Skill
 
 Exports instincts to a shareable format. Perfect for:
 - Sharing with teammates
@@ -17,6 +17,8 @@ Run the instinct CLI:
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/scripts/instinct-cli.py export [--output FILE] [--domain DOMAIN] [--min-confidence N]
 ```
+
+If the plugin-root variable in that command is not expanded, replace it with the plugin root: the directory that contains `skills/`, `hooks/` and `agents/`.
 
 ## Usage
 

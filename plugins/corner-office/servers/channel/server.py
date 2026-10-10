@@ -46,7 +46,7 @@ if "--debug" in sys.argv:
 
 mcp = Server(
     name="corner-office-channel",
-    version="1.0.0",
+    version="1.34.0",
     instructions=(
         'Messages from the Corner Office app arrive as <channel source="corner-office-channel" '
         'workspace="..." chat_id="..." sender="user">.\n'

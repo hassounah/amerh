@@ -1,12 +1,17 @@
 # corner-office
 
-Personal developer toolkit for Claude Code. Provides a full engineering pipeline — from product requirements through design, planning, implementation, and review — plus continuous learning, security review, and workflow optimization.
+Personal developer toolkit for Claude Code (and Codex — see root README for limits). Provides a full engineering pipeline — from product requirements through design, planning, implementation, and review — plus continuous learning, security review, and workflow optimization.
 
 ## Quick Start
 
 ```bash
+# Claude Code
 /plugin marketplace add hassounah/amerh
 /plugin install corner-office@amerh
+
+# Codex
+codex plugin marketplace add hassounah/amerh
+codex plugin add corner-office@amerh
 ```
 
 ## Rix — Persistent Dev Manager
@@ -84,13 +89,15 @@ All pipeline documents are organized under a configurable `docs_root`:
 - Pipeline pattern lazy-spawns one agent at a time for maximum token efficiency
 - Complements `/implement` and `/team-review` — does NOT replace them
 
-## The Pipeline Commands
+## The Pipeline Skills
 
-The individual commands that Rix orchestrates — also usable standalone:
+The individual skills that Rix orchestrates — also usable standalone:
 
 ## Components
 
-### Commands (13)
+### Pipeline & Learning Skills (13)
+
+> **Claude Code only:** `rix`, `implement`, `team-review`, `assemble-team`, `task-plan`, `feature-design`, `feature-prd` and `seance` call Claude Code-only tools (Agent, SendMessage, Task*, AskUserQuestion, Skill). They load in Codex but are not supported there, and Codex does not auto-trigger them. The learning skills (`learn`, `evolve`, `instinct-*`) load in Codex but are untested there. See the root README.
 
 **Pipeline Orchestration:**
 - `/rix` - Persistent Dev Manager with memory — orchestrates the full pipeline through 3 quality gates
@@ -154,16 +161,16 @@ Composable YAML presets for `/assemble-team`. Use `--formula <name>` to load, ov
 - **design-explore** — Pipeline from PRD to TRD (product-manager, system-architect)
 - **full-stack-review** — Full architecture panel (security-architect, backend-architect, ux-dx-architect)
 
-### Skills (5)
+### Supporting Skills (5)
 - **continuous-learning-v2** - Instinct-based learning system with hooks, confidence scoring, and evolution
 - **strategic-compact** - Suggests manual context compaction at logical workflow boundaries
 - **security-checklist** - Comprehensive security checklist and patterns for code review
 - **serena-integration** - MCP tool discovery and semantic code navigation via Serena
 - **learned/** - Auto-extracted patterns from past sessions
 
-### Hooks (20 events)
+### Hooks (22 events)
 
-**Activity tracking** — `emit_activity` hooks on all 20 event types forward every Claude session event to `~/.corner-office/events/` as JSONL. Disabled by default — events only flow when `~/.corner-office/events/enabled` exists. The Corner Office app manages this automatically via its hook install/uninstall mechanism.
+**Activity tracking** — `emit_activity` hooks on every registered event forward every Claude session event to `~/.corner-office/events/` as JSONL. Disabled by default — events only flow when `~/.corner-office/events/enabled` exists. The Corner Office app manages this automatically via its hook install/uninstall mechanism.
 
 **Specialized hooks** (on top of activity tracking):
 - **PreToolUse** - Strategic compact suggestions on Edit/Write
