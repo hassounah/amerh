@@ -3,7 +3,7 @@ name: instinct-import
 description: Import instincts from teammates, Skill Creator, or other sources
 ---
 
-# Instinct Import Command
+# Instinct Import Skill
 
 ## Implementation
 
@@ -12,6 +12,8 @@ Run the instinct CLI:
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/scripts/instinct-cli.py import <file-or-url> [--dry-run] [--force] [--min-confidence 0.7]
 ```
+
+If the plugin-root variable in that command is not expanded, replace it with the plugin root: the directory that contains `skills/`, `hooks/` and `agents/`.
 
 Import instincts from:
 - Teammates' exports

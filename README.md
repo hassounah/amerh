@@ -1,14 +1,16 @@
 # amer-plugins
 
-Personal Claude Code plugin marketplace by Amer Hassounah.
+Personal Claude Code and Codex plugin marketplace by Amer Hassounah.
 
 ## Plugins
 
 | Plugin | Version | Description |
 |--------|---------|-------------|
-| **[corner-office](#corner-office)** | 1.32.2 | Persistent dev manager (Rix) with 3-pipeline system, continuous learning, code review agents, architecture review panel, autonomous implementation teams, SQL database tools, composable workflow formulas, and channel server with permission relay |
+| **[corner-office](#corner-office)** | 1.34.0 | Persistent dev manager (Rix) with 3-pipeline system, continuous learning, code review agents, architecture review panel, autonomous implementation teams, SQL database tools, composable workflow formulas, and channel server with permission relay |
 
 ## Installation
+
+### Claude Code
 
 ```bash
 # Add the marketplace
@@ -17,6 +19,18 @@ Personal Claude Code plugin marketplace by Amer Hassounah.
 # Install a plugin
 /plugin install corner-office@amerh
 ```
+
+### Codex
+
+```bash
+codex plugin marketplace add hassounah/amerh
+codex plugin add corner-office@amerh
+# update later: codex plugin marketplace upgrade amerh
+```
+
+- The first Codex session asks you to trust the plugin's hooks once.
+- Only the `corner-office` SQL MCP server ships to Codex. The channel server is Claude Code only.
+- The SessionStart hook's "invoke corner-office:rix via the Skill tool" prompt also fires in Codex in projects with `.rix/`. Codex has no Skill tool, so the model may try to invoke it and fail; start Rix in Claude Code instead.
 
 ---
 
@@ -57,9 +71,13 @@ Assemble and spawn a team of any agent personas from the 12-agent roster using p
 
 All patterns are event-driven, use TeamCreate + Task tool for spawning teammates, enforce idle protocol, and cap at 4 agents. Complements `/implement` and `/team-review` without replacing them.
 
-### Pipeline Commands
+### Pipeline Skills
 
-| Command | Description |
+Invoke as `/<name>` or `/corner-office:<name>` in Claude Code, and `$<name>` in Codex.
+
+> **Claude Code only:** `rix`, `implement`, `team-review`, `assemble-team`, `task-plan`, `feature-design`, `feature-prd` and `seance` call Claude Code-only tools (Agent, SendMessage, Task*, AskUserQuestion, Skill). They load in Codex but are not supported there, and Codex does not auto-trigger them. Host-neutral versions are planned. The learning skills (`learn`, `evolve`, `instinct-*`) load in Codex but are untested there.
+
+| Skill | Description |
 |---------|-------------|
 | `/rix` | Persistent Dev Manager — orchestrates the full pipeline with memory |
 | `/feature-prd` | Research-backed Product Requirements Document with sourced market claims |
@@ -70,9 +88,9 @@ All patterns are event-driven, use TeamCreate + Task tool for spawning teammates
 | `/assemble-team` | Custom team assembly with coordination patterns and composable YAML formulas |
 | `/seance` | Recover context from handoff documents after compaction or session restart |
 
-### Learning Commands
+### Learning Skills
 
-| Command | Description |
+| Skill | Description |
 |---------|-------------|
 | `/learn` | Extract reusable patterns from current session |
 | `/evolve` | Cluster related instincts into skills/commands/agents |
@@ -110,7 +128,9 @@ All patterns are event-driven, use TeamCreate + Task tool for spawning teammates
   - Permission relay: tool-approval dialogs forwarded to connected clients for remote approve/deny (v2.1.81+)
   - Token-based WebSocket auth, localhost-only, pending request tracking
 
-### Skills (5)
+### Skills (18)
+
+The 13 pipeline and learning skills are listed in the two tables above. Supporting skills:
 
 - **continuous-learning-v2** — Instinct-based learning with hooks, confidence scoring, and evolution
 - **strategic-compact** — Context compaction at logical workflow boundaries
@@ -126,9 +146,9 @@ Composable YAML presets for `/assemble-team` — override agents with `+agent`, 
 - **design-explore** — Pipeline from PRD to TRD (product-manager, system-architect)
 - **full-stack-review** — Full architecture panel (security-architect, backend-architect, ux-dx-architect)
 
-### Hooks (20 events)
+### Hooks (22 events)
 
-`emit_activity` hooks on all 20 event types write session events to `~/.corner-office/events/` as JSONL. **Disabled by default** — events only flow when `~/.corner-office/events/enabled` exists. The Corner Office app manages this flag via its hook install/uninstall mechanism. Specialized hooks on 7 core events handle strategic compaction, session start/end, handoff capture, registration card refresh, and code quality checks.
+`emit_activity` hooks on every registered event write session events to `~/.corner-office/events/` as JSONL. **Disabled by default** — events only flow when `~/.corner-office/events/enabled` exists. The Corner Office app manages this flag via its hook install/uninstall mechanism. Specialized hooks on 7 core events handle strategic compaction, session start/end, handoff capture, registration card refresh, and code quality checks.
 
 ---
 
@@ -142,15 +162,15 @@ amerh/
     └── corner-office/
         ├── .claude-plugin/
         │   └── plugin.json
+        ├── .codex-plugin/    # Codex manifest + Codex MCP config
         ├── .mcp.json         # MCP server registrations
         ├── agents/           # 12 agents
-        ├── commands/         # 13 commands
         ├── formulas/         # 4 YAML workflow formulas
         ├── hooks/            # Learning observer + handoff capture
         ├── servers/
         │   ├── channel/      # Channel server (chat + permission relay)
         │   └── mcp/          # SQL database MCP server
-        └── skills/           # 5 skills
+        └── skills/           # 18 skills
 ```
 
 ## Attribution

@@ -3,7 +3,7 @@ name: instinct-status
 description: Show all learned instincts with their confidence levels
 ---
 
-# Instinct Status Command
+# Instinct Status Skill
 
 Shows all learned instincts with their confidence scores, grouped by domain.
 
@@ -14,6 +14,8 @@ Run the instinct CLI:
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/scripts/instinct-cli.py status
 ```
+
+If the plugin-root variable in that command is not expanded, replace it with the plugin root: the directory that contains `skills/`, `hooks/` and `agents/`.
 
 ## Usage
 

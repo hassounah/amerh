@@ -149,7 +149,7 @@ mkdir -p ~/.claude/homunculus/{instincts/{personal,inherited},evolved/{agents,sk
 touch ~/.claude/homunculus/observations.jsonl
 ```
 
-### 3. Use the Instinct Commands
+### 3. Use the Instinct Skills
 
 ```bash
 /instinct-status     # Show learned instincts with confidence scores
@@ -158,9 +158,9 @@ touch ~/.claude/homunculus/observations.jsonl
 /instinct-import     # Import instincts from others
 ```
 
-## Commands
+## Skills
 
-| Command | Description |
+| Skill | Description |
 |---------|-------------|
 | `/instinct-status` | Show all learned instincts with confidence |
 | `/evolve` | Cluster related instincts into skills/commands |

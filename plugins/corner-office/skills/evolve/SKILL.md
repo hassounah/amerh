@@ -3,7 +3,7 @@ name: evolve
 description: Cluster related instincts into skills, commands, or agents
 ---
 
-# Evolve Command
+# Evolve Skill
 
 ## Implementation
 
@@ -12,6 +12,8 @@ Run the instinct CLI:
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/scripts/instinct-cli.py evolve [--generate]
 ```
+
+If the plugin-root variable in that command is not expanded, replace it with the plugin root: the directory that contains `skills/`, `hooks/` and `agents/`.
 
 Analyzes instincts and clusters related ones into higher-level structures:
 - **Commands**: When instincts describe user-invoked actions

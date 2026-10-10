@@ -97,7 +97,7 @@ After presenting the plan summary, ask the user using AskUserQuestion:
 
 ## Notes
 
-- This command is designed to follow `/feature-design` in the workflow: `/feature-design` produces a TRD, then `/task-plan` turns it into an actionable plan
+- This skill is designed to follow `/feature-design` in the workflow: `/feature-design` produces a TRD, then `/task-plan` turns it into an actionable plan
 - The task-planner agent explores the actual codebase to ground the plan in reality
 - Plans are saved alongside the TRD — as `plan.md` in the feature directory, or as `[name]-plan.md` for flat TRD files
 - The agent uses Opus for thorough analysis and planning
